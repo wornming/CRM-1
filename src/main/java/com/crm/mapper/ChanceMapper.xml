@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.mapper.ChanceMapper">
+	
+	<select id="findAllChance" resultMap="DataDirectoryMap">
+		select * from chance
+	</select>
+	
+	<select id="getChanceCount" resultType="int">
+		select count(*) from chance
+	</select>
+	
+	<resultMap type="Chance"  id="DataDirectoryMap">
+		<association property="chancestatus"   column="chancestatus"  select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"/>
+		<association property="user"   column="userid"  select="com.crm.mapper.UserInfoMapper.getUserInfo"/>
+		<association property="contacter" column="contacename" select="com.crm.mapper.ContacterMapper.getContacterByName"></association>
+	</resultMap>
+
+</mapper>
+

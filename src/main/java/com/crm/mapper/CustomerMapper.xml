@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.mapper.CustomerMapper">
+	<resultMap type="Customer" id="CustomerMap">
+		<association property="district" column="district" select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"></association>
+		<association property="grade" column="grade" select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"></association>
+		<association property="satisfaction" column="satisfaction" select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"></association>
+		<association property="credit" column="credit" select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"></association>
+		<association property="customerstatus" column="customerstatus" select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"></association>
+		<association property="customermanager" column="customermanagerid" select="com.crm.mapper.UserInfoMapper.getUserInfo"></association>
+	</resultMap>
+	<select id="getCustomer" resultMap="CustomerMap">
+		select * from customer
+	</select>
+	<select id="getCustomerCount" resultType="int">
+		select count(*) from customer
+	</select>
+	<!-- 条件查询语句 -->
+	<sql id="conditionSql">
+		from customer
+		<where>
+			<if test="id != null and id != ''">
+				id=#{id}
+			</if>
+			<if test="cname != null and cname != ''">
+				and cname like '%${cname}%'
+			</if>
+			<if test="district != null and district != ''">
+				and district like '%${cname}%'
+			</if>
+		</where>
+	</sql>
+	<select id="findCustomerCondition">
+		select * from <include refid="conditionSql"></include>
+	</select>
+</mapper>

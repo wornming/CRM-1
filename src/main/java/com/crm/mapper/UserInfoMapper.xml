@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.mapper.UserInfoMapper">
+	<select id="getUserInfo" resultType="UserInfo">
+		select * from userinfo where id=#{userid}
+	</select>
+	
+	<select id="getUserInfoXiaoShou" resultType="UserInfo">
+		select * from userinfo where role = 3
+	</select>
+	
+	
+	<select id="findUserInfo" resultMap="DataDirectoryMap">
+		select * from userinfo  where uname =#{uname} and pwd=#{pwd}
+	</select>
+	
+	<select id="getAllUserInfo" resultType="UserInfo">
+		select * from userinfo
+	</select>
+	
+	<resultMap type="UserInfo"  id="DataDirectoryMap">
+		<association property="role"   column="role"  select="com.crm.mapper.DataDirectoryMapper.getUserRole"/>
+	</resultMap>
+	
+</mapper>
