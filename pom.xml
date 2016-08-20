@@ -55,7 +55,6 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>4.3.0.RELEASE</version>
 		</dependency>
-
 		<!-- Spring的aspectj包 -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -134,6 +133,7 @@
 			<artifactId>struts2-spring-plugin</artifactId>
 			<version>2.3.24</version>
 		</dependency>
+		
   </dependencies>
   <build>
     <finalName>CRM</finalName>

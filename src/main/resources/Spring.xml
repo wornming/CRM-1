@@ -51,7 +51,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- 配置mybatis中的别名 -->
-		<property name="typeAliasesPackage" value="com.crm.beans"></property>
+		<property name="typeAliasesPackage" value="com.crm.bean"></property>
 
 		<!-- 使用传统的mapper就在这里配置 -->
 		<property name="mapperLocations"  value="classpath:com/crm/mapper/*.xml">

@@ -107,7 +107,7 @@ select * from customer;
 
 
 insert into contacter(customerid,cname,sex,post,telphone,cellphone,remark) values(1,'杨影',26,28,'010-68348438-326','13728838283',' ');
-
+insert into contacter(customerid,cname,sex,post,telphone,cellphone,remark) values(2,'王琪',26,28,'010-68348438-326','13728838283',' ');
 select * from contacter;
 
 
@@ -153,3 +153,7 @@ insert into service(servicetype,summary,customerid,servicestatus,createperson,cr
 insert into service(servicetype,summary,customerid,servicestatus,createperson,createdate) values(35,'询问收音机价格',1,36,'王五',now());
 insert into service(servicetype,summary,customerid,servicestatus,createperson,createdate) values(35,'询问收音机价格',1,36,'王五',now());
 
+insert into chance values(1,'获取客户电话获取机会来源','yc公司','70','有意向采购公司的飞机','杨影','销售机会','李四','2016-8-19',3,'2016-8-20',6);
+insert into chance values(2,'获取客户电话','聪海信息科技有限公司','70','有意向采购公司的火箭','王琪','销售机会','李四','2016-8-19',3,'2016-8-20',5);
+
+select * from chance;

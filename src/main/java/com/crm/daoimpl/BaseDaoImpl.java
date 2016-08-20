@@ -16,7 +16,7 @@ import com.crm.dao.BaseDao;
 @Repository(value="baseDaoImpl")
 public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 	
-	private final String MAPPERPATH="com.crm.dao.mapper.";
+	private final String MAPPERPATH="com.crm.mapper.";
 
 	//自动在com.wq.mapper.找对应的方法
 	public void save(T t, String sqlId) {

@@ -2,8 +2,10 @@ package com.crm.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+
 /**
  * 销售机会表
+ * 
  * @author liwp
  *
  */
@@ -16,7 +18,7 @@ public class Chance implements Serializable {
 	private String customername; // 客户名称
 	private String success; // 成功几率
 	private String chancesummary; // 机会描述
-	private String contacename; // 联系人名
+	private Contacter contacter; // 联系人
 	private String chancedescribe; // 机会描述
 	private String creater; // 创建人
 	private Date createtime; // 创建时间
@@ -64,12 +66,12 @@ public class Chance implements Serializable {
 		this.chancesummary = chancesummary;
 	}
 
-	public String getContacename() {
-		return contacename;
+	public Contacter getContacter() {
+		return contacter;
 	}
 
-	public void setContacename(String contacename) {
-		this.contacename = contacename;
+	public void setContacter(Contacter contacter) {
+		this.contacter = contacter;
 	}
 
 	public String getChancedescribe() {
@@ -123,7 +125,7 @@ public class Chance implements Serializable {
 	@Override
 	public String toString() {
 		return "Chance [id=" + id + ", chancesource=" + chancesource + ", customername=" + customername + ", success="
-				+ success + ", chancesummary=" + chancesummary + ", contacename=" + contacename + ", chancedescribe="
+				+ success + ", chancesummary=" + chancesummary + ", contacter=" + contacter + ", chancedescribe="
 				+ chancedescribe + ", creater=" + creater + ", createtime=" + createtime + ", user=" + user
 				+ ", assigntime=" + assigntime + ", chancestatus=" + chancestatus + "]";
 	}

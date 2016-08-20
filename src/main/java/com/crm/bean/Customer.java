@@ -16,7 +16,7 @@ public class Customer implements Serializable {
 	private String cname; // 编号
 	private DataDirectory district; // 地区 关联数据字典
 	private DataDirectory grade; // 客户星级 关联数据字典
-	private DataDirectory statisfaction; // 客户满意度 关联数据字典
+	private DataDirectory satisfaction; // 客户满意度 关联数据字典
 	private DataDirectory credit; // 信用度 关联数据字典
 	private String location; // 地址
 	private Integer postcode; // 邮政编码
@@ -66,12 +66,14 @@ public class Customer implements Serializable {
 		this.grade = grade;
 	}
 
-	public DataDirectory getStatisfaction() {
-		return statisfaction;
+	
+
+	public DataDirectory getSatisfaction() {
+		return satisfaction;
 	}
 
-	public void setStatisfaction(DataDirectory statisfaction) {
-		this.statisfaction = statisfaction;
+	public void setSatisfaction(DataDirectory satisfaction) {
+		this.satisfaction = satisfaction;
 	}
 
 	public DataDirectory getCredit() {
@@ -205,7 +207,7 @@ public class Customer implements Serializable {
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", cname=" + cname + ", district=" + district + ", grade=" + grade
-				+ ", statisfaction=" + statisfaction + ", credit=" + credit + ", location=" + location + ", postcode="
+				+ ", satisfaction=" + satisfaction + ", credit=" + credit + ", location=" + location + ", postcode="
 				+ postcode + ", telphone=" + telphone + ", fax=" + fax + ", website=" + website + ", license=" + license
 				+ ", legal=" + legal + ", registermoney=" + registermoney + ", yearincome=" + yearincome + ", bank="
 				+ bank + ", bankaccount=" + bankaccount + ", rentnumber=" + rentnumber + ", taxnumber=" + taxnumber
