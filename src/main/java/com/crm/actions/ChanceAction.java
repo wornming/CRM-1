@@ -34,6 +34,23 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 	private HashMap<String,Object> map = new HashMap<String, Object>();
 	private Integer total;
 	
+	@Action(value="/findChanceByCondition")
+	public void FindChanceByCondition() throws IOException{
+		map.put("contactername", pagemodel.getT().getContacter().getCname());
+		map.put("customername", pagemodel.getT().getCustomername());
+		map.put("chancesummary", pagemodel.getT().getChancesummary());
+		
+		List<Chance> chancelist = chanceBiz.FindChanceByCondition(map).getList();
+		
+		total=chanceBiz.FindChanceByCondition(map).getTotalCount();
+		
+		pagejsonModel.setTotal(total);
+		pagejsonModel.setRows(chancelist);
+		
+		super.outJson(pagejsonModel, ServletActionContext.getResponse());
+	}
+
+	
 	@Action(value="/SaveChance")
 	public void SaveChance(){
 		Map<String, Object> session = ActionContext.getContext().getSession();

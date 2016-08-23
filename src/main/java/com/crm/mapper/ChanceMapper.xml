@@ -4,6 +4,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crm.mapper.ChanceMapper">
 	
+	<select id="findChanceByCondition" parameterType="map" resultMap="DataDirectoryMap">
+		select * <include refid="conditionSql"/>
+	</select>
+	
+	<select id="findChanceByConditionCount" parameterType="map" resultType="int">
+		select count(*) <include refid="conditionSql"/>
+	</select>
+		<sql id="conditionSql">
+		from chance
+		<where>
+			<if test="contactername!=null and contactername!=''">
+				 contacename like '%${contactername}%'
+			</if>
+			<if test="customername!=null and customername!=''">
+				and customername like '%${customername}%'
+			</if>
+			<if test="chancesummary!=null and chancesummary!=''">
+				and chancesummary like '%${chancesummary}%'
+			</if>
+		</where>
+	</sql>
+	
+	
 	<insert id="savechance"  parameterType="Chance">
 		<selectKey keyProperty="id"  resultType="Integer" order="BEFORE">
 			select max(id)+1 as id from chance
