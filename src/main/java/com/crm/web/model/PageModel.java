@@ -12,11 +12,26 @@ public class PageModel<T> implements Serializable{
 	private Integer page;  //当前第几页
 	private Integer rows=5;	//每页条数
 	private List<T> list;
+	private T t;
 	
 	
 	
 	
 	
+	
+	public PageModel() {
+	}
+
+	public PageModel(T t) {
+		this.t = t;
+	}
+	
+	public T getT() {
+		return t;
+	}
+	public void setT(T t) {
+		this.t = t;
+	}
 	public Integer getTotal() {
 		return total;
 	}
@@ -65,8 +80,11 @@ public class PageModel<T> implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "PageModel [total=" + total + ", totalCount=" + totalCount + ", page=" + page + ", rows=" + rows
-				+ ", list=" + list + "]";
+		return "PageModel [total=" + total + ", totalCount=" + totalCount
+				+ ", page=" + page + ", rows=" + rows + ", list=" + list
+				+ ", t=" + t + "]";
 	}
+
+
 	
 }

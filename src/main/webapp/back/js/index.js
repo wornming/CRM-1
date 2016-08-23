@@ -47,7 +47,7 @@ $(function(){
 							title:"客户开发计划",
 							closable:true,
 							fit:true,
-							href:'tyf.html'
+							href:'sale/dev.html'
 						})
 					}
 				}else if("客户信息管理"==text){
@@ -58,7 +58,7 @@ $(function(){
 							title:"客户信息管理",
 							closable:true,
 							fit:true,
-							href:'tyf.html'
+							href:'cust/cusInfo.html'
 						})
 					}
 				}else if("客户流失管理"==text){

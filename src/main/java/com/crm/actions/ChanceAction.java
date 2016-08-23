@@ -3,17 +3,23 @@ package com.crm.actions;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
 import com.crm.bean.Chance;
+import com.crm.bean.UserInfo;
 import com.crm.biz.ChanceBiz;
 import com.crm.web.model.PageJsonModel;
 import com.crm.web.model.PageModel;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
 @Controller
@@ -27,6 +33,13 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 	private PageModel<Chance> pagemodel;
 	private HashMap<String,Object> map = new HashMap<String, Object>();
 	private Integer total;
+	
+	@Action(value="/SaveChance")
+	public void SaveChance(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		chanceBiz.InsertChance(pagemodel.getT());
+	}
+
 	
 	@Action(value="/findChanceListPage")
 	public void FindChanceListPage() throws IOException{
@@ -49,7 +62,7 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 	
 	
 	public PageModel<Chance> getModel() {
-		pagemodel = new PageModel<Chance>();
+		pagemodel = new PageModel<Chance>(new Chance());
 		return pagemodel;
 	}
 

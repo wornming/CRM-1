@@ -13,4 +13,7 @@ public interface ChanceBiz {
 	
 	public Chance FindDetailChance();
 	
+	public void InsertChance(Chance chance);
+
+	
 }

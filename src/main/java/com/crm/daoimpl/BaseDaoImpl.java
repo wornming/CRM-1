@@ -42,6 +42,12 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 		return t;
 	}
 
+	public List<T> findList(Class<T> t, Map<String, Object> map, String sqlId) {
+		List<T> listT = null;
+		listT=super.getSqlSession().selectList(MAPPERPATH+t.getSimpleName()+"Mapper."+sqlId, map);
+		return listT;
+	}
+	
 	public List<T> findList(Class<T> t, Map<String, Object> map, String sqlId, int offset, int sizepage) {
 		List<T> listT = null;
 		listT=super.getSqlSession().selectList(MAPPERPATH+t.getSimpleName()+"Mapper."+sqlId, map,new RowBounds(offset, sizepage));
@@ -69,5 +75,7 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 	public void del(Class<T> t, List<Integer> ids, String sqlId) {
 		super.getSqlSession().delete(MAPPERPATH+t.getSimpleName()+"Mapper."+sqlId,ids);
 	}
+
+	
 
 }

@@ -2,6 +2,29 @@ function reload(){
 	window.location.reload();
 }
 
+
+function setCusList(name){
+	$.ajax({
+    	type:'POST',
+    	url:'findXiaoShouUserInfo.action',
+    	dataType:'JSON',
+    	success:function(data){
+    		if(data.code==1){
+    			$("#"+name).html("");
+    			var html="<option>请选择...</option>";
+    			for (var i = 0; i < data.obj.length; i++) {
+    				
+					var cusManager = data.obj[i];
+					html+="<option value='"+cusManager.id+"'>";
+					html+=cusManager.name+"</option>";
+				}
+    			
+    			$("#"+name).html(html);
+    		}
+    	}
+    });
+}
+
 function setCurTime(oid){
 	var now=new Date();
 	var year=now.getFullYear();

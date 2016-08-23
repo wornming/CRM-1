@@ -14,6 +14,12 @@ import com.crm.web.model.PageModel;
 @Service
 public class ChanceBizImpl extends BaseBizImpl implements ChanceBiz {
 
+	@Transactional(readOnly=false,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.REQUIRED)
+	public void InsertChance(Chance chance) {
+		baseDao.save(chance, "savechance");
+	}
+
+	
 	@Transactional(readOnly=true,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.NOT_SUPPORTED)
 	public List<Chance> FindChanceList() {
 		List<Chance> list = baseDao.findAll(Chance.class, "findAllChance");

@@ -26,6 +26,8 @@ public interface BaseDao<T>{
 	
 	public T find(T t,String sqlId);
 	
+	public List<T> findList(Class<T> clazz, Map<String,Object> map,String sqlId);
+	
 	public List<T> findList(Class<T> clazz, Map<String,Object> map,String sqlId,int offset,int sizepage);
 	
 	public int getCount(Class<T> clazz,String sqlId);

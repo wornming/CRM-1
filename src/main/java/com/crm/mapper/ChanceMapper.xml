@@ -4,6 +4,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crm.mapper.ChanceMapper">
 	
+	<insert id="savechance"  parameterType="Chance">
+		<selectKey keyProperty="id"  resultType="Integer" order="BEFORE">
+			select max(id)+1 as id from chance
+		</selectKey>
+			insert into chance values(#{id},#{chancesource},#{customername},#{success},#{chancesummary},#{contacter.cname},#{chancedescribe},#{creater},#{createtime},#{user.id},#{assigntime},#{chancestatus.id})
+	</insert>
+
+	
+	
 	<select id="findAllChance" resultMap="DataDirectoryMap">
 		select * from chance
 	</select>

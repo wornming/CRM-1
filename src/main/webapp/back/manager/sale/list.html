@@ -3,6 +3,28 @@
 <script src="../js/common.js"></script>
 <script src="../js/list.js"></script>
 <link href="css/style.css" rel="stylesheet" type="text/css">
+<div id="dispatchSaleOption" class="easyui-dialog" title="销售机会管理  > 分配销售机会" data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
+	<div class="button_bar">
+	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
+	<a  href="javascript:closeDispatchOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >返回</a>
+	<a  id="saveDispatch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="return false;">保存</a>
+	</div>
+	
+	<table id="dispatchTable" class="query_form_table" >
+	</table>
+	<table class="query_form_table" id="dispatchTable2">
+	<tr>
+		<th>指派给</th>
+		<td>
+			<select name="D1" id="dispatchCus">
+				
+			</select> <span class="red_star">*</span></td>
+		<th>指派时间</th>
+		<td>
+			<input id="dispatchTime" name="T20" readonly size="20" /><span class="red_star">*</span></td>
+	</tr>
+</table>
+</div>
 <div id="addSaleOption" class="easyui-dialog" title="销售机会管理  > 新建销售机会" data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
 <br/>
 <div class="button_bar">
@@ -51,16 +73,11 @@
 		<th>指派给</th>
 		<td>
 			<select name="D1" id="cusManager">
-				<option>请选择...</option>
-				<option>小明</option>
-				<option>旺财</option>
-				<option>球球</option>
-				<option>孙小美</option>
-				<option>周洁轮</option>
+				
 			</select> <span class="red_star">*</span></td>
 		<th>指派时间</th>
 		<td>
-			<input id="assigntime" name="T20" readonly size="20" /><span class="red_star">*</span></td>
+			<input id="assigntime" name="T20" readonly size="20" disabled /><span class="red_star">*</span></td>
 	</tr>
 </table>
 

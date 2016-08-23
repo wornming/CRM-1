@@ -10,4 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getUserRole"  resultType="DataDirectory">
 		select * from datadirectorys where id=#{role}
 	</select>
+	
+	<select id="getDataDirectoryByType" parameterType="map" resultType="DataDirectory">
+		select * from datadirectorys where dtype=#{dtype}
+	</select>
 </mapper>

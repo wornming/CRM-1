@@ -28,11 +28,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and cname like '%${cname}%'
 			</if>
 			<if test="district != null and district != ''">
-				and district like '%${cname}%'
+				and district=#{district}
+			</if>
+			<if test="customermanagername != null and customermanagername != ''">
+				and customermanagerid in (select id from userinfo where name like '%${customermanagername}')
+			</if>
+			<if test="grade != null and grade != ''">
+				and grade=#{grade}
 			</if>
 		</where>
 	</sql>
-	<select id="findCustomerCondition">
-		select * from <include refid="conditionSql"></include>
+	<select id="findCustomerConditionCount" parameterType="map" resultType="int">
+		select count(*) <include refid="conditionSql"></include>
+	</select>
+	<select id="findCustomerCondition" parameterType="map" resultMap="CustomerMap">
+		select * <include refid="conditionSql"></include>
 	</select>
 </mapper>
