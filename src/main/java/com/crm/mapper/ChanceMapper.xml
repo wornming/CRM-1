@@ -12,8 +12,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) <include refid="conditionSql"/>
 	</select>
 		<sql id="conditionSql">
-		from chance
+		from chance 
 		<where>
+			chancestatus=5
 			<if test="contactername!=null and contactername!=''">
 				 contacename like '%${contactername}%'
 			</if>
@@ -34,14 +35,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			insert into chance values(#{id},#{chancesource},#{customername},#{success},#{chancesummary},#{contacter.cname},#{chancedescribe},#{creater},#{createtime},#{user.id},#{assigntime},#{chancestatus.id})
 	</insert>
 
+
 	
 	
 	<select id="findAllChance" resultMap="DataDirectoryMap">
-		select * from chance
+		select * from chance where chancestatus=5
 	</select>
 	
 	<select id="getChanceCount" resultType="int">
-		select count(*) from chance
+		select count(*) from chance where chancestatus=5
 	</select>
 	
 	<resultMap type="Chance"  id="DataDirectoryMap">

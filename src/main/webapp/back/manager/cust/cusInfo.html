@@ -3,78 +3,44 @@
 <script src="../js/common.js"></script>
 <script src="../js/cusInfo.js"></script>
 <link href="css/style.css" rel="stylesheet" type="text/css">
-<div id="dispatchSaleOption" class="easyui-dialog" title="销售机会管理  > 分配销售机会" data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
-	<div class="button_bar">
-	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
-	<a  href="javascript:closeDispatchOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >返回</a>
-	<a  id="saveDispatch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="return false;">保存</a>
-	</div>
-	
-	<table id="dispatchTable" class="query_form_table" >
-	</table>
-	<table class="query_form_table" id="dispatchTable2">
-	<tr>
-		<th>指派给</th>
-		<td>
-			<select name="D1" id="dispatchCus">
-				
-			</select> <span class="red_star">*</span></td>
-		<th>指派时间</th>
-		<td>
-			<input id="dispatchTime" name="T20" readonly size="20" /><span class="red_star">*</span></td>
-	</tr>
-</table>
-</div>
-<div id="editSaleOption" class="easyui-dialog" title="客户信息管理 > 客户信息" data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
+
+<div id="editInfoOption" class="easyui-dialog" title="客户信息管理 > 客户信息" data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
 <br/>
 <div class="button_bar">
-	<a id="help" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
-	<a id="goBack" href="javascript:closeSaleOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >联系人</a>
-	<a id="save" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="saveSaleOption();return false;">交往记录</a>
-	<a id="goBack" href="javascript:closeSaleOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >历史订单</a>
-	<a id="goBack" href="javascript:closeSaleOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >返回</a>
-	<a id="save" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="saveSaleOption();return false;">保存</a>
+	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
+	<a  href="javascript:closeSaleOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >联系人</a>
+	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="saveSaleOption();return false;">交往记录</a>
+	<a  href="javascript:closeSaleOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >历史订单</a>
+	<a  href="javascript:closeInfoOption()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >返回</a>
+	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="saveSaleOption();return false;">保存</a>
 	</div>
+	<table class="query_form_table">
 	<tr>
 		<th>客户编号</th>
 		<td id="id"></td>
 		<th>名称</th>
-		<td><input value="北京聪海信息科技有限公司" /><span class="red_star">*</span></td>
+		<td><input value="" id="cus_cname" /><span class="red_star">*</span></td>
 	</tr>
 	<tr>
 		<th>地区</th>
 		<td>
-			<select>
-				<option>请选择...</option>
-				<option selected>北京</option>
-				<option>华北</option>
-				<option>中南</option>
-				<option>东北</option>
-				<option>西部</option>
+			<select id="cus_district">
+				
 			</select>
 			<span class="red_star">*</span></td>
 		<th>客户经理</th>
 		<td>
-			<select>
-				<option>请选择...</option>
-				<option selected>小明</option>
-				<option>旺财</option>
-				<option>球球</option>
-				<option>孙小美</option>
-				<option>周洁轮</option>
+			<select id="cus_customermanager">
+				
 			</select><span class="red_star">*</span>
 		</td>
 	</tr>	
 	<tr>
 		<th>客户等级</th>
 		<td>
-			<select>
-				<option>请选择...</option>
-				<option selected>战略合作伙伴</option>
-				<option>合作伙伴</option>
-				<option>大客户</option>
-				<option>重点开发客户</option>
-				<option>普通客户</option>
+			<select id="cus_grade">
+				
+				
 			</select><span class="red_star">*</span>
 		</td>
 		<th>　</th>
@@ -83,21 +49,14 @@
 	<tr>
 		<th>客户满意度</th>
 		<td>
-			<select><option value="">未指定</option>
-					<option value="5">☆☆☆☆☆</option>
-					<option value="4">☆☆☆☆</option>
-					<option value="3" selected="selected">☆☆☆</option>
-					<option value="2">☆☆</option>
-					<option value="1">☆</option></select><span class="red_star">*</span>
+			<select id="satisfaction">
+			</select><span class="red_star">*</span>
 		</td>
 		<th>客户信用度</th>
 		<td>
-			<select><option value="">未指定</option>
-					<option value="5">☆☆☆☆☆</option>
-					<option value="4">☆☆☆☆</option>
-					<option value="3" selected="selected">☆☆☆</option>
-					<option value="2">☆☆</option>
-					<option value="1">☆</option></select><span class="red_star">*</span>
+			<select id="credit">
+			
+			</select><span class="red_star">*</span>
 		</td>
 	</tr>
 </table>
@@ -105,24 +64,24 @@
 <table class="query_form_table" id="table1">
 	<tr>
 		<th>地址</th>
-		<td><input value="北京市海淀区成府路702号"  /><span class="red_star">*</span>
+		<td><input value="" id="cus_location"  /><span class="red_star">*</span>
 		</td>
 		<th>邮政编码</th>
-		<td><input value="100027" name="T1" size="20" /><span class="red_star">*</span></td>
+		<td><input value="" name="T1" size="20" id="postcode" /><span class="red_star">*</span></td>
 	</tr>
 	<tr>
 		<th>电话</th>
 		<td>
-			<input value="010-62283393" name="T4" size="20"  /><span class="red_star">*</span></td>
+			<input value=""  id="cus_telphone" name="T4" size="20"  /><span class="red_star">*</span></td>
 		<th>传真</th>
 		<td>
-			<input value="010-62283396" name="T5" size="20"  /><span class="red_star">*</span>
+			<input value="" id="fax" name="T5" size="20"  /><span class="red_star">*</span>
 		</td>
 	</tr>	
 	<tr>
 		<th>网址</th>
 		<td>
-			<input value="www.conghai.com" name="T6" size="20"  /><span class="red_star">*</span>
+			<input id="website" value="" id="website" name="T6" size="20"  /><span class="red_star">*</span>
 		</td>
 		<th>　</th>
 		<td>　</td>
@@ -132,37 +91,37 @@
 <table class="query_form_table" id="table2">
 	<tr>
 		<th>营业执照注册号</th>
-		<td><input value="" name="T13" size="20" /></td>
+		<td><input id="license" value="" name="T13" size="20" /></td>
 		<th>法人</th>
-		<td><input value="聪颖" name="T3" size="20" /><span class="red_star">*</span>
+		<td><input id="legal" value="" name="T3" size="20" /><span class="red_star">*</span>
 		</td>
 	</tr>
 	<tr>
 		<th>注册资金（万元）</th>
 		<td>
-			<input value="" name="T7" size="20" /> </td>
+			<input id="registermoney" value="" name="T7" size="20" /> </td>
 		<th>年营业额</th>
 		<td>
-			<input value="" name="T8" size="20" />
+			<input id="yearincome" value="" name="T8" size="20" />
 		</td>
 	</tr>	
 	<tr>
 		<th>开户银行</th>
 		<td>
-			<input value="北京银行 中关村支行" name="T9" size="20" /><span class="red_star">*</span>
+			<input id="bank" value="" name="T9" size="20" /><span class="red_star">*</span>
 		</td>
 		<th>银行帐号</th>
-		<td><input value="62258827238382838" name="T10" size="20" /><span class="red_star">*</span></td>
+		<td><input id="bankaccount" value="" name="T10" size="20" /><span class="red_star">*</span></td>
 	</tr>
 	<tr>
 		<th>地税登记号</th>
 		<td>
-			<input value="" name="T11" size="20" /></td>
+			<input id="rentnumber" value="" name="T11" size="20" /></td>
 		<th>国税登记号</th>
-		<td><input value="" name="T12" size="20" /></td>
+		<td><input id="taxnumber" value="" name="T12" size="20" /></td>
 	</tr>
-
-</div>
+</table>
+</div> 
 <div class="button_bar">
 	
 	<a id="help" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
@@ -197,5 +156,5 @@
 	</table>
 
 
-<table class="data_list_table" id="data_list_table"></table>
+<table class="data_list_table" id="cus_list_table"></table>
 

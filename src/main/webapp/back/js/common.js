@@ -11,7 +11,7 @@ function setCusList(name){
     	success:function(data){
     		if(data.code==1){
     			$("#"+name).html("");
-    			var html="<option>请选择...</option>";
+    			var html="<option value=''>请选择...</option>";
     			for (var i = 0; i < data.obj.length; i++) {
     				
 					var cusManager = data.obj[i];

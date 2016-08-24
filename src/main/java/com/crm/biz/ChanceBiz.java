@@ -14,7 +14,8 @@ public interface ChanceBiz {
 	
 	public Chance FindDetailChance();
 	
-	public void InsertChance(Chance chance);
+	public void InsertChance(PageModel<Chance> pagemodel);
+
 	
 	public PageModel<Chance> FindChanceByCondition(Map<String,Object> map);
 

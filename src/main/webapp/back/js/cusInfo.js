@@ -119,7 +119,7 @@ var editRow=undefined;
 InitTable('list_customer.action');
 
 function InitTable(url,params){
-	dataObj=$('#data_list_table').datagrid({
+	dataObj=$('#cus_list_table').datagrid({
 		url:url,
 		fitColumns:true,
 		loadMsg:'数据加载中',
@@ -153,9 +153,9 @@ function InitTable(url,params){
 				}},
 	        {field:'g',title:'操作',width:100,align:'center',editor:{type:'text',options:{required:true}}, formatter:function(value,row,index){
 	        	if(row.customerstatus.dvalue==1){
-	        		 return "<img onclick='dispatch("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='showOptionDetail("+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='删除' src='../images/bt_del.gif'/>";
+	        		 return "<img onclick='editCusInfo("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='showOptionDetail("+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='删除' src='../images/bt_del.gif'/>";
 	        	}else{
-	        		 return "<img onclick='dispatch("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='showOptionDetail("+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>";
+	        		 return "<img onclick='editCusInfo("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='showOptionDetail("+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>";
 	             }
 	         
 	   	 }}
@@ -165,6 +165,81 @@ function InitTable(url,params){
 		});
 }
 
+function editCusInfo(id){
+	$.ajax({
+		type:'POST',
+		url:'list_customer?page=1&rows=1',
+		data:{'id':id},
+		dataType:'JSON',
+		success:function(data){
+			
+			$("#editInfoOption").dialog({
+				title:"销售机会管理  > 编辑销售机会",
+				onOpen:function(){
+					$("#id").val(data.rows[0].id);
+					$("#cus_cname").val(data.rows[0].cname);
+					var count = $("#cus_district option").length;
+					for (var i = 0; i < count; i++) {
+						if($("#cus_district").get(0).options[i].text==data.rows[0].district.tiaomu){
+							$("#cus_district").get(0).options[i].selected=true;
+							break;
+						}
+					}
+					
+		
+					count=$("#cus_customermanager option").length;
+					for (var i = 0; i < count; i++) {
+						if($("#cus_customermanager").get(0).options[i].text==data.rows[0].customermanager.name){
+							$("#cus_customermanager").get(0).options[i].selected=true;
+						}
+					}
+					
+					count=$("#cus_grade option").length;
+					for (var i = 0; i < count; i++) {
+						if($("#cus_grade").get(0).options[i].text==data.rows[0].grade.tiaomu){
+							$("#cus_grade").get(0).options[i].selected=true;
+						}
+					}
+					
+					count=$("#satisfaction option").length;
+					for (var i = 0; i < count; i++) {
+						if($("#satisfaction").get(0).options[i].text==data.rows[0].satisfaction.tiaomu){
+							$("#satisfaction").get(0).options[i].selected=true;
+						}
+					}
+					//$("#credit").val(data.rows[0].credit.tiaomu);
+					count=$("#credit option").length;
+					for (var i = 0; i < count; i++) {
+						if($("#credit").get(0).options[i].text==data.rows[0].credit.tiaomu){
+							$("#credit").get(0).options[i].selected=true;
+						}
+					}
+					$("#cus_location").val(data.rows[0].location);
+					$("#postcode").val(data.rows[0].postcode);
+					$("#cus_telphone").val(data.rows[0].telphone);
+					$("#fax").val(data.rows[0].fax);
+					$("#website").val(data.rows[0].website);
+					$("#license").val(data.rows[0].license);
+					$("#legal").val(data.rows[0].legal);
+					$("#registermoney").val(data.rows[0].registermoney);
+					$("#yearincome").val(data.rows[0].yearincome);
+					$("#bank").val(data.rows[0].bank);
+					$("#bankaccount").val(data.rows[0].bankaccount);
+					$("#rentnumber").val(data.rows[0].rentnumber);
+					$("#taxnumber").val(data.rows[0].taxnumber);
+					//$("#fax").attr("disabled",true),
+					//$("#assigntime").attr("disabled",true),
+					//$("#save").attr("onclick","editSaleOption();return false;")
+					
+				}
+				
+			});
+			
+			$("#editInfoOption").dialog("open");
+			
+		}
+	});
+}
 
 
 
@@ -177,8 +252,8 @@ function closeDispatchOption(){
 	});
 	}
 
-function closeSaleOption(){
-	$("#addSaleOption").dialog({
+function closeInfoOption(){
+	$("#editInfoOption").dialog({
 		 closed: true
 	});
 	

@@ -52,10 +52,15 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 
 	
 	@Action(value="/SaveChance")
-	public void SaveChance(){
-		Map<String, Object> session = ActionContext.getContext().getSession();
-		chanceBiz.InsertChance(pagemodel.getT());
+	public void SaveChance() throws IOException{
+		
+			chanceBiz.InsertChance(pagemodel);
+			pagejsonModel.setCode(1);
+			pagejsonModel.setMsg("添加机会成功");
+			super.outJson(pagejsonModel, ServletActionContext.getResponse());
+		
 	}
+
 
 	
 	@Action(value="/findChanceListPage")

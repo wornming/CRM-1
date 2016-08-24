@@ -217,7 +217,7 @@ function saveSaleOption(){
 			't.createtime':$("#createtime").val(),
 			't.user.id':$("#cusManager").val(),
 			't.assigntime':$("#assigntime").val(),
-			't.chancestatus.id':5
+			't.chancestatus.id':$("#cusManager").val()==''?5:6
 		},
 		url:'SaveChance.action',
 		dataType:'JSON',

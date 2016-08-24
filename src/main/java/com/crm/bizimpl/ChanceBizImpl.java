@@ -14,6 +14,10 @@ import com.crm.web.model.PageModel;
 
 @Service
 public class ChanceBizImpl extends BaseBizImpl implements ChanceBiz {
+	
+	
+	
+
 
 	@Transactional(readOnly=true,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.NOT_SUPPORTED)
 	public PageModel<Chance> FindChanceByCondition(Map<String,Object> map) {
@@ -29,10 +33,10 @@ public class ChanceBizImpl extends BaseBizImpl implements ChanceBiz {
 		return pagemodel;
 	}
 
-	
 	@Transactional(readOnly=false,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.REQUIRED)
-	public void InsertChance(Chance chance) {
-		baseDao.save(chance, "savechance");
+	public void InsertChance(PageModel<Chance> pagemodel) {
+		baseDao.save(pagemodel.getT(), "savechance");
+		baseDao.save(pagemodel.getT().getContacter(),"saveContacter");
 	}
 
 	
