@@ -48,4 +48,10 @@ public class CustomerBizImpl extends BaseBizImpl implements CustomerBiz {
 		customerModel.setPage(currPage);
 		return customerModel;
 	}
+	@Transactional(readOnly = true, isolation = Isolation.DEFAULT, rollbackForClassName = ("java.lang.RuntimeException"), propagation = Propagation.NOT_SUPPORTED)
+	public Customer getCustomerById(Customer customer) {
+		Customer c=(Customer) baseDao.find(customer, "getCustomerById");
+		return c;
+	}
+
 }

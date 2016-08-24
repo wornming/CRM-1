@@ -20,5 +20,12 @@ public interface CustomerBiz {
 	 * @param map
 	 * @return
 	 */
-	public PageModel<Customer> searchCustomer(Map<String, Object> map);
+	public PageModel<Customer> searchCustomer(Map<String, Object> map);/**
+	 * 根据id查询顾客
+	 * @param id
+	 * @return
+	 */
+	public Customer getCustomerById(Customer customer);
+
+	
 }

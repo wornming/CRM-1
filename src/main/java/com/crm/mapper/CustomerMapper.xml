@@ -44,4 +44,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findCustomerCondition" parameterType="map" resultMap="CustomerMap">
 		select * <include refid="conditionSql"></include>
 	</select>
+	
+	<select id="getCustomerById" parameterType="Customer" resultMap="CustomerMap">
+		select * from customer where id=#{id}
+	</select>
+	
 </mapper>

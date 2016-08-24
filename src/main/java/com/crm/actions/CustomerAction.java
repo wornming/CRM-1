@@ -45,47 +45,63 @@ public class CustomerAction extends BaseAction implements ModelDriven<PageModel<
 		super.outJson(pagejsonModel, ServletActionContext.getResponse());
 	}
 
-	@Action(value="/customer_search")
+	@Action(value = "/customer_search")
 	public void search() throws IOException {
-		jsonModel=new JsonModel();
-		pagejsonModel=new PageJsonModel();
+		jsonModel = new JsonModel();
+		pagejsonModel = new PageJsonModel();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", pageModel.getPage());
 		map.put("rows", pageModel.getRows());
-		
+
 		map.put("id", pageModel.getT().getId());
 		map.put("cname", pageModel.getT().getCname());
-		//TODO ：解决属性必须new的问题
-		map.put("district",pageModel.getT().getDistrict().getId());
+		// TODO ：解决属性必须new的问题
+		map.put("district", pageModel.getT().getDistrict().getId());
 		map.put("customermanagername", pageModel.getT().getCustomermanager().getName());
 		map.put("grade", pageModel.getT().getGrade().getId());
-		
+
 		pageModel = customerBiz.searchCustomer(map);
 		pagejsonModel.setTotal(pageModel.getTotalCount());
 		pagejsonModel.setRows(pageModel.getList());
-		
+
 		super.outJson(pagejsonModel, ServletActionContext.getResponse());
 	}
 
-
 	@Action(value = "/list_select")
 	public void customerGrade() throws IOException {
-		jsonModel=new JsonModel();
-		Map<String, Object> map=new HashMap<String, Object>();
+		jsonModel = new JsonModel();
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<DataDirectory> grade = dataDirectoryBiz.getDataDirectoryByType("grade");
 		List<DataDirectory> district = dataDirectoryBiz.getDataDirectoryByType("district");
+		List<DataDirectory> satisfaction = dataDirectoryBiz.getDataDirectoryByType("satisfaction");
+		List<DataDirectory> credit = dataDirectoryBiz.getDataDirectoryByType("credit");
 		map.put("grade", grade);
 		map.put("district", district);
+		map.put("satisfaction", satisfaction);
+		map.put("credit", credit);
 		if (map != null && !map.isEmpty()) {
 			jsonModel.setCode(1);
 			jsonModel.setObj(map);
-		}else{
+		} else {
 			jsonModel.setCode(0);
 			jsonModel.setMsg("select is empty");
 		}
 		super.outJson(jsonModel, ServletActionContext.getResponse());
 	}
 
+	@Action(value = "/list_data")
+	public void listData() {
+		Map<String, List<DataDirectory>> map = (Map<String, List<DataDirectory>>) ServletActionContext.getServletContext().getAttribute("dataDirectory");
+		if (map == null) {
+			map=dataDirectoryBiz.getAllDataDirectory();
+			ServletActionContext.getServletContext().setAttribute("dataDirectory", map);
+		}
+		Map<String, List<DataDirectory>> result=new HashMap<String, List<DataDirectory>>();
+		result.put("district", map.get("district"));
+		result.put("grade", map.get("grade"));
+		result.put("district", map.get("district"));
+		result.put("district", map.get("district"));
+	}
 
 	public PageModel<Customer> getModel() {
 		pageModel = new PageModel<Customer>(new Customer());
