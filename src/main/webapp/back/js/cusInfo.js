@@ -102,6 +102,17 @@ $(function(){
     		
     			$("#cus_grade").html(html);
     			
+    			$("#post").html("");
+    			var html="<option value=''>请选择...</option>";
+    			for (var i = 0; i < data.obj.post.length; i++) {
+    				
+					var level = data.obj.post[i];
+					html+="<option value='"+level.id+"'>";
+					html+=level.tiaomu+"</option>";
+				}
+    		
+    			$("#post").html(html);
+    			
     			
     			$("#satisfaction").html("");
     			var html="<option value=''>请选择...</option>";
@@ -273,15 +284,13 @@ function editCusInfo(id){
 		}
 	});
 }
-//联系表
 
 
-
-
+//联系人
 function getContacterList(cid,id){
 	dataObj.datagrid('selectRow',cid);
 	var row = dataObj.datagrid('getSelected');
-	
+	$("#linkSaveButton").attr("onclick","addLinkman("+id+");return false;");
 	$("#linkmanList").dialog({
 		title:"客户信息管理 > 客户信息 > 联系人",
 		onOpen:function(){
@@ -383,6 +392,59 @@ function saveCusInfo(){
 	}
 	});
 
+}
+
+function addLinkman(id){
+	 closelinkmanList();
+	 $("#saveNewLinkman").bind('click',function(){
+		 $.ajax({
+			 type:'POST',
+			 data:{
+				 'customer.id':id,
+				 'cname':$("#link_id").val(),
+				 'sex.id':$("input[name='gander']:checked").val(),
+				 'post.id':$("#post").val(),
+				 'telphone':$("#link_tel").val(),
+				 'cellphone':$("#link_cell").val(),
+				 'remark':$("#remark").val()
+			 },
+			 url:'save_contacterdetail',
+			 dataType:'JSON',
+			 success:function(data){
+					if(data.code==1){
+						$.messager.show({title:"成功提示",msg:'联系人添加成功',timeout:3000,showType:'slide'});
+						$.ajax({
+							type:'POST',
+							data:{'customer.id':id},
+							url:'list_contacterbycustomerid.action',
+							dataType:'JSON',
+							success:function(data){
+								
+								html="<tr><th>姓名</th><th>性别</th><th>职位</th><th>办公电话</th><th>手机</th><th>备注</th><th>操作</th></tr>";
+								for (var i = 0; i < data.obj.length; i++) {
+									var obj = data.obj[i];
+									html+="<tr><td class='list_data_text'>"+obj.cname+"</td><td class='list_data_ltext'>"+obj.sex.tiaomu+"</td><td class='list_data_text'>"+obj.post.tiaomu+"</td>";
+									html+="<td class='list_data_text'>"+obj.telphone+"</td><td class='list_data_text'>"+obj.cellphone+"</td><td class='list_data_op'></td>";
+									html+="<td class='list_data_op'><img onclick='' title='编辑' src='../images/bt_edit.gif' class='op_button' /><img onclick='' title='删除' src='../images/bt_del.gif' class='op_button' /></td></tr>";
+								}
+								$("#linkman_table").html("");
+								$("#linkman_table").html(html);
+								$("addLinkMan").dialog({
+									closed:true
+								});
+								$("#linkmanList").dialog("open");
+							}
+						});
+						
+						
+						
+					}else{
+						$.messager.alert('失败提示','联系人添加失败,原因：'+data.msg,'error');
+					}
+				}
+		 });
+	 });
+	$("#addLinkMan").dialog("open");
 }
 
 

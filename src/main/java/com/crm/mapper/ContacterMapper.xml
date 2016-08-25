@@ -24,5 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getContacterByCustomerId" parameterType="map" resultMap="ContacterMap">
 		select * from contacter where customerid=#{customerid}
 	</select>
-	
+	<!-- 保存 -->
+	<insert id="saveContacterDetail" parameterType="Contacter">
+		insert into contacter(customerid,cname,sex,post,telphone,cellphone,remark) values(#{customer.id},#{cname},#{sex.id},#{post.id},#{telphone},#{cellphone},#{remark})
+	</insert>
 </mapper>

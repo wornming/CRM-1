@@ -78,6 +78,7 @@ public class CustomerAction extends BaseAction implements ModelDriven<PageModel<
 		List<DataDirectory> district = dataDirectoryBiz.getDataDirectoryByType("district");
 		List<DataDirectory> satisfaction = dataDirectoryBiz.getDataDirectoryByType("satisfaction");
 		List<DataDirectory> credit = dataDirectoryBiz.getDataDirectoryByType("credit");
+		List<DataDirectory> post = dataDirectoryBiz.getDataDirectoryByType("post");
 
 		map.put("customerman", list);
 
@@ -85,6 +86,7 @@ public class CustomerAction extends BaseAction implements ModelDriven<PageModel<
 		map.put("district", district);
 		map.put("satisfaction", satisfaction);
 		map.put("credit", credit);
+		map.put("post", post);
 		if (map != null && !map.isEmpty()) {
 			jsonModel.setCode(1);
 			jsonModel.setObj(map);

@@ -9,7 +9,7 @@
 	<div class="button_bar">
 	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
 	<a  href="javascript:closelinkmanList()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >返回</a>
-	<a  id="saveDispatch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="return false;">新建</a>
+	<a  id="linkSaveButton" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="return false;">新建</a>
 	</div>
 	
 	<table class="query_form_table">
@@ -20,6 +20,44 @@
 		<td><input type="text" id="linkman_cname" disabled/></td>
 	</tr>
 	</table>
+<br />
+	<table class="data_list_table" id="linkman_table">
+		
+	</table>
+</div>
+
+
+<div id="addLinkMan" class="easyui-dialog" title="客户信息管理 > 客户信息 > 联系人 > 新建联系人 " data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
+	<div class="button_bar">
+	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
+	<a  href="javascript:closelinkmanList()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >返回</a>
+	<a  id="saveNewLinkman" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="return false;">保存</a>
+	</div>
+	
+	<table class="query_form_table">
+	<tr>
+		<th>姓名</th>
+		<td><input id="link_id" /><span class="red_star">*</span></td>
+		<th>性别</th>
+		<td>
+			<input type="radio" name="gander" checked id="sex"  value="26"/>男
+			<input type="radio" name="gander" id="sex" value="27" />女
+		</td>
+	</tr>
+	<tr>
+		<th>职位</th>
+		<td>
+		<select id="post"></select>
+		</td>
+		<th>办公电话</th>
+		<td><input id="link_tel" /><span class="red_star">*</span></td>
+	</tr>	
+	<tr>
+		<th>手机</th>
+		<td><input id="link_cell" name="T1" size="20" /></td>
+		<th>备注</th>
+		<td><input id="remark" name="T2" size="20" /></td>
+	</tr>
 <br />
 	<table class="data_list_table" id="linkman_table">
 		

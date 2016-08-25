@@ -15,5 +15,10 @@ public interface ContacterBiz {
 	 */
 	public List<Contacter> getContacterByCustomerId(Map<String, Object> map);
 
-	
+	/**
+	 * 保存联系人
+	 * @param contacter
+	 */
+	public boolean saveContacterDetail(Contacter contacter);
+
 }

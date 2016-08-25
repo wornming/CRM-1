@@ -28,6 +28,26 @@ public class ContacterAction extends BaseAction implements ModelDriven<Contacter
 	private Contacter contacter;
 	private ContacterBiz contacterBiz;
 	private JsonModel jsonModel;
+	
+	@Action(value = "/save_contacterdetail")
+	public void saveContacter() throws IOException {
+		jsonModel = new JsonModel();
+		if (contacter.getCustomer() != null && contacter.getCustomer().getId() != null) {
+			boolean flag = contacterBiz.saveContacterDetail(contacter);
+			if (flag) {
+				jsonModel.setCode(1);
+			} else {
+				jsonModel.setCode(0);
+				jsonModel.setMsg("联系人重名");
+			}
+		} else {
+			jsonModel.setCode(0);
+			jsonModel.setObj("injert failed");
+		}
+		super.outJson(jsonModel, ServletActionContext.getResponse());
+	}
+
+	
 	@Action(value="/list_contacterbycustomerid")
 	public void ContacterByCustomerId() throws IOException {
 		jsonModel = new JsonModel();
