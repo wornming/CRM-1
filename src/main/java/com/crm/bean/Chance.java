@@ -12,7 +12,7 @@ import java.util.Date;
 public class Chance implements Serializable {
 
 	private static final long serialVersionUID = 9219454948178572527L;
-
+	
 	private Integer id;
 	private String chancesource; // 机会来源
 	private String customername; // 客户名称

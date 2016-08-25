@@ -45,6 +45,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * <include refid="conditionSql"></include>
 	</select>
 	
+	<update id="updateCustomerById" parameterType="Customer">
+		update customer set cname=#{cname},district=#{district.id},grade=#{grade.id},satisfaction=#{satisfaction.id}
+		,credit=#{credit.id},location=#{location},postcode=#{postcode},telphone=#{telphone},fax=#{fax},website=#{website}
+		,license=#{license},legal=#{legal},registermoney=#{registermoney},yearincome=#{yearincome},bank=#{bank}
+		,bankaccount=#{bankaccount},rentnumber=#{rentnumber},taxnumber=#{taxnumber},customermanagerid=#{customermanager.id}
+		where id=#{id}
+	</update>
+	
+	
 	<select id="getCustomerById" parameterType="Customer" resultMap="CustomerMap">
 		select * from customer where id=#{id}
 	</select>

@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -15,8 +13,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import com.crm.bean.Customer;
 import com.crm.bean.DataDirectory;
+import com.crm.bean.UserInfo;
 import com.crm.biz.CustomerBiz;
 import com.crm.biz.DataDirectoryBiz;
+import com.crm.biz.UserInfoBiz;
 import com.crm.web.model.JsonModel;
 import com.crm.web.model.PageJsonModel;
 import com.crm.web.model.PageModel;
@@ -34,6 +34,7 @@ public class CustomerAction extends BaseAction implements ModelDriven<PageModel<
 	private JsonModel jsonModel;
 	private CustomerBiz customerBiz;
 	private DataDirectoryBiz dataDirectoryBiz;
+	private UserInfoBiz userinfobiz;
 
 	@Action(value = "/list_customer")
 	public void list() throws IOException {
@@ -71,10 +72,15 @@ public class CustomerAction extends BaseAction implements ModelDriven<PageModel<
 	public void customerGrade() throws IOException {
 		jsonModel = new JsonModel();
 		Map<String, Object> map = new HashMap<String, Object>();
+		List<UserInfo> list = userinfobiz.getUserInfoXiaoShou();
+		// 组装列表数据
 		List<DataDirectory> grade = dataDirectoryBiz.getDataDirectoryByType("grade");
 		List<DataDirectory> district = dataDirectoryBiz.getDataDirectoryByType("district");
 		List<DataDirectory> satisfaction = dataDirectoryBiz.getDataDirectoryByType("satisfaction");
 		List<DataDirectory> credit = dataDirectoryBiz.getDataDirectoryByType("credit");
+
+		map.put("customerman", list);
+
 		map.put("grade", grade);
 		map.put("district", district);
 		map.put("satisfaction", satisfaction);
@@ -89,18 +95,31 @@ public class CustomerAction extends BaseAction implements ModelDriven<PageModel<
 		super.outJson(jsonModel, ServletActionContext.getResponse());
 	}
 
-	@Action(value = "/list_data")
-	public void listData() {
-		Map<String, List<DataDirectory>> map = (Map<String, List<DataDirectory>>) ServletActionContext.getServletContext().getAttribute("dataDirectory");
-		if (map == null) {
-			map=dataDirectoryBiz.getAllDataDirectory();
-			ServletActionContext.getServletContext().setAttribute("dataDirectory", map);
+	@Action(value = "/list_customerbyid")
+	public void listData() throws IOException {
+		jsonModel = new JsonModel();
+		if (pageModel.getT().getId() != null) {
+			Customer c = customerBiz.getCustomerById(pageModel.getT());
+			jsonModel.setCode(1);
+			jsonModel.setObj(c);
+		} else {
+			jsonModel.setCode(0);
+			jsonModel.setMsg("id is null");
 		}
-		Map<String, List<DataDirectory>> result=new HashMap<String, List<DataDirectory>>();
-		result.put("district", map.get("district"));
-		result.put("grade", map.get("grade"));
-		result.put("district", map.get("district"));
-		result.put("district", map.get("district"));
+		super.outJson(jsonModel, ServletActionContext.getResponse());
+	}
+	@Action(value="/save_customerbyid")
+	public void updateCustomer() throws IOException {
+		jsonModel = new JsonModel();
+		Customer c=pageModel.getT();
+		if (c != null) {
+			customerBiz.updateCustomer(c);
+			jsonModel.setCode(1);
+		}else{
+			jsonModel.setCode(0);
+			jsonModel.setMsg("update customer failed");
+		}
+		super.outJson(jsonModel, ServletActionContext.getResponse());
 	}
 
 	public PageModel<Customer> getModel() {
@@ -116,5 +135,10 @@ public class CustomerAction extends BaseAction implements ModelDriven<PageModel<
 	@Resource(name = "dataDirectoryBizImpl")
 	public void setDataDirectoryBiz(DataDirectoryBiz dataDirectoryBiz) {
 		this.dataDirectoryBiz = dataDirectoryBiz;
+	}
+
+	@Resource(name = "userInfoBizImpl")
+	public void setUserinfobiz(UserInfoBiz userinfobiz) {
+		this.userinfobiz = userinfobiz;
 	}
 }

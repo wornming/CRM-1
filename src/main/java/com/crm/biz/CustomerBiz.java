@@ -26,6 +26,9 @@ public interface CustomerBiz {
 	 * @return
 	 */
 	public Customer getCustomerById(Customer customer);
-
-	
+	/**
+	 * 修改customer
+	 * @param customer
+	 */
+	public void updateCustomer(Customer customer);
 }

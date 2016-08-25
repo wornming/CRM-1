@@ -53,5 +53,9 @@ public class CustomerBizImpl extends BaseBizImpl implements CustomerBiz {
 		Customer c=(Customer) baseDao.find(customer, "getCustomerById");
 		return c;
 	}
+	@Transactional(readOnly = false, isolation = Isolation.DEFAULT, rollbackForClassName = ("java.lang.RuntimeException"), propagation = Propagation.NOT_SUPPORTED)
+	public void updateCustomer(Customer customer) {
+		baseDao.update(customer, "updateCustomerById");
+	}
 
 }

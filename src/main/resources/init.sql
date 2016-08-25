@@ -141,7 +141,7 @@ insert into orderitem(orderid  ,pname ,ordernumber ,unit,price,countprice) value
 
 select * from orderitem;
 
-
+delete from chance where id=8;
 
 insert into service(servicetype,summary,customerid,servicestatus,createperson,createdate) values(33,'询问收音机价格',1,36,'王五',now());
 insert into service(servicetype,summary,customerid,servicestatus,createperson,createdate) values(33,'询问收音机价格',1,36,'王五',now());

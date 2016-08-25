@@ -29,39 +29,7 @@ $(function(){
 		});*/
  });  
    
-   
- 
-  
-    
-    
-   
-    //获取地区和客户等级列表
 
-	$.ajax({
-    	type:'POST',
-    	url:'',
-    	dataType:'JSON',
-    	success:function(data){
-    		if(data.code==1){
-    			$("#location").html("");
-    			var html="<option value=''>全部...</option>";
-    			for (var i = 0; i < data.obj.length; i++) {
-    				
-					var location = data.obj[i];
-					html+="<option value='"+location.id+"'>";
-					html+=location.tiaomu+"</option>";
-				}
-    			/*var map = data.obj;
-    			for (var key in map) {  
-    				html+="<option value='"+key+"'>";
-    				html+=map[key]+"</option>";
-    	        }  */
-    			
-    			$("#location").html(html);
-    		}
-    	}
-    });
-	
 
 	$.ajax({
     	type:'POST',
@@ -101,6 +69,69 @@ $(function(){
     	        }  */
     			
     			$("#location").html(html);
+    			
+    			
+    			$("#cus_district").html("");
+    			var html="<option value=''>请选择...</option>";
+    			for (var i = 0; i < data.obj.district.length; i++) {
+    				
+					var location = data.obj.district[i];
+					html+="<option value='"+location.id+"'>";
+					html+=location.tiaomu+"</option>";
+				}
+    			$("#cus_district").html(html);
+    			
+    			$("#cus_customermanager").html("");
+    			var html="<option value=''>请选择...</option>";
+    			for (var i = 0; i < data.obj.customerman.length; i++) {
+    				
+					var location = data.obj.customerman[i];
+					html+="<option value='"+location.id+"'>";
+					html+=location.name+"</option>";
+				}
+    			$("#cus_customermanager").html(html);
+    			
+    			$("#cus_grade").html("");
+    			var html="<option value=''>请选择...</option>";
+    			for (var i = 0; i < data.obj.grade.length; i++) {
+    				
+					var level = data.obj.grade[i];
+					html+="<option value='"+level.id+"'>";
+					html+=level.tiaomu+"</option>";
+				}
+    		
+    			$("#cus_grade").html(html);
+    			
+    			
+    			$("#satisfaction").html("");
+    			var html="<option value=''>请选择...</option>";
+    			for (var i = 0; i < data.obj.satisfaction.length; i++) {
+    				
+					var level = data.obj.satisfaction[i];
+					html+="<option value='"+level.id+"'>";
+					for (var j = 0; j < Number(data.obj.satisfaction[i].dvalue); j++) {
+						html+="☆";
+					}
+					html+="</option>";
+				}
+    		
+    			$("#satisfaction").html(html);
+    			
+    			$("#credit").html("");
+    			var html="<option value=''>请选择...</option>";
+    			for (var i = 0; i < data.obj.credit.length; i++) {
+					var l = data.obj.credit[i];
+					var v=Number(l.dvalue);
+					html+="<option value='"+l.id+"'>";
+					//html+=level.tiaomu+"</option>";
+					
+					for (var j = 0; j < v; j++) {
+						html+="☆";
+					}
+					html+="</option>";
+				}
+    		
+    			$("#credit").html(html);
     		}
     	}
     });
@@ -164,23 +195,23 @@ function InitTable(url,params){
 	         
 		});
 }
-
+//编辑
 function editCusInfo(id){
 	$.ajax({
 		type:'POST',
-		url:'list_customer?page=1&rows=1',
-		data:{'id':id},
+		url:'list_customerbyid.action',
+		data:{'t.id':id},
 		dataType:'JSON',
 		success:function(data){
 			
 			$("#editInfoOption").dialog({
-				title:"销售机会管理  > 编辑销售机会",
+				
 				onOpen:function(){
-					$("#id").val(data.rows[0].id);
-					$("#cus_cname").val(data.rows[0].cname);
+					$("#cus_id").val(data.obj.id);
+					$("#cus_cname").val(data.obj.cname);
 					var count = $("#cus_district option").length;
 					for (var i = 0; i < count; i++) {
-						if($("#cus_district").get(0).options[i].text==data.rows[0].district.tiaomu){
+						if($("#cus_district").get(0).options[i].text==data.obj.district.tiaomu){
 							$("#cus_district").get(0).options[i].selected=true;
 							break;
 						}
@@ -189,44 +220,44 @@ function editCusInfo(id){
 		
 					count=$("#cus_customermanager option").length;
 					for (var i = 0; i < count; i++) {
-						if($("#cus_customermanager").get(0).options[i].text==data.rows[0].customermanager.name){
+						if($("#cus_customermanager").get(0).options[i].text==data.obj.customermanager.name){
 							$("#cus_customermanager").get(0).options[i].selected=true;
 						}
 					}
 					
 					count=$("#cus_grade option").length;
 					for (var i = 0; i < count; i++) {
-						if($("#cus_grade").get(0).options[i].text==data.rows[0].grade.tiaomu){
+						if($("#cus_grade").get(0).options[i].text==data.obj.grade.tiaomu){
 							$("#cus_grade").get(0).options[i].selected=true;
 						}
 					}
 					
 					count=$("#satisfaction option").length;
 					for (var i = 0; i < count; i++) {
-						if($("#satisfaction").get(0).options[i].text==data.rows[0].satisfaction.tiaomu){
+						if($("#satisfaction").get(0).options[i].value==data.obj.satisfaction.id){
 							$("#satisfaction").get(0).options[i].selected=true;
 						}
 					}
-					//$("#credit").val(data.rows[0].credit.tiaomu);
+					//$("#credit").val(data.obj.credit.tiaomu);
 					count=$("#credit option").length;
 					for (var i = 0; i < count; i++) {
-						if($("#credit").get(0).options[i].text==data.rows[0].credit.tiaomu){
+						if($("#credit").get(0).options[i].value==data.obj.credit.id){
 							$("#credit").get(0).options[i].selected=true;
 						}
 					}
-					$("#cus_location").val(data.rows[0].location);
-					$("#postcode").val(data.rows[0].postcode);
-					$("#cus_telphone").val(data.rows[0].telphone);
-					$("#fax").val(data.rows[0].fax);
-					$("#website").val(data.rows[0].website);
-					$("#license").val(data.rows[0].license);
-					$("#legal").val(data.rows[0].legal);
-					$("#registermoney").val(data.rows[0].registermoney);
-					$("#yearincome").val(data.rows[0].yearincome);
-					$("#bank").val(data.rows[0].bank);
-					$("#bankaccount").val(data.rows[0].bankaccount);
-					$("#rentnumber").val(data.rows[0].rentnumber);
-					$("#taxnumber").val(data.rows[0].taxnumber);
+					$("#cus_location").val(data.obj.location);
+					$("#postcode").val(data.obj.postcode);
+					$("#cus_telphone").val(data.obj.telphone);
+					$("#fax").val(data.obj.fax);
+					$("#website").val(data.obj.website);
+					$("#license").val(data.obj.license);
+					$("#legal").val(data.obj.legal);
+					$("#registermoney").val(data.obj.registermoney);
+					$("#yearincome").val(data.obj.yearincome);
+					$("#bank").val(data.obj.bank);
+					$("#bankaccount").val(data.obj.bankaccount);
+					$("#rentnumber").val(data.obj.rentnumber);
+					$("#taxnumber").val(data.obj.taxnumber);
 					//$("#fax").attr("disabled",true),
 					//$("#assigntime").attr("disabled",true),
 					//$("#save").attr("onclick","editSaleOption();return false;")
@@ -235,6 +266,7 @@ function editCusInfo(id){
 				
 			});
 			
+			
 			$("#editInfoOption").dialog("open");
 			
 		}
@@ -242,7 +274,47 @@ function editCusInfo(id){
 }
 
 
+function saveCusInfo(){
 
+	
+	$.ajax({
+		type:'POST',
+		data:{
+			't.id':$("#cus_id").val(),
+			't.cname':$("#cus_cname").val(),
+			't.district.id':$("#cus_district").val(),
+			't.customermanager.id':$("#cus_customermanager").val(),
+			't.grade.id':$("#cus_grade").val(),
+			't.satisfaction.id':$("#satisfaction").val(),
+			't.credit.id':$("#credit").val(),
+			't.location':$("#cus_location").val(),
+			't.postcode':$("#postcode").val(),
+			't.telphone':$("#cus_telphone").val(),
+			't.fax':$("#fax").val(),
+			't.website':$("#website").val(),
+			't.license':$("#license").val(),
+			't.legal':$("#legal").val(),
+			't.registermoney':$("#registermoney").val(),
+			't.yearincome':$("#yearincome").val(),
+			't.bank':$("#bank").val(),
+			't.bankaccount':$("#bankaccount").val(),
+			't.rentnumber':$("#rentnumber").val(),
+			't.taxnumber':$("#taxnumber").val()
+							
+		},
+	url:'save_customerbyid.action',
+	dataType:'JSON',
+	success:function(data){
+		if(data.code=1){
+			$.messager.show({title:"成功提示",msg:'用户信息修改成功',timeout:3000,showType:'slide'});
+			dataObj.datagrid('reload');
+		}else{
+			$.messager.alert('失败提示','用户信息添加失败,原因：'+data.msg,'error');
+		}
+	}
+	});
+
+}
 
 
 	

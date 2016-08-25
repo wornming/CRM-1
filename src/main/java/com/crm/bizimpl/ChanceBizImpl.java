@@ -15,8 +15,16 @@ import com.crm.web.model.PageModel;
 @Service
 public class ChanceBizImpl extends BaseBizImpl implements ChanceBiz {
 	
+	public void deleteChanceById(PageModel<Chance> pagemodel) {
+		baseDao.del(pagemodel.getT().getClass(), pagemodel.getT().getId(), "deleteChanceById");
+	}
+
 	
-	
+	//更新机会
+	@Transactional(readOnly=false,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.REQUIRED)
+	public void updateChanceUserInfo(PageModel<Chance> pagemodel) {
+		baseDao.update(pagemodel.getT(),"updateChance");
+	}
 
 
 	@Transactional(readOnly=true,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.NOT_SUPPORTED)
@@ -61,8 +69,9 @@ public class ChanceBizImpl extends BaseBizImpl implements ChanceBiz {
 	}
 
 	@Transactional(readOnly=true,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.NOT_SUPPORTED)
-	public Chance FindDetailChance() {
-		return null;
+	public Chance FindDetailChance(PageModel<Chance> pagemodel) {
+		return (Chance) baseDao.find(pagemodel.getT(), "getChanceDetail");
 	}
+
 
 }

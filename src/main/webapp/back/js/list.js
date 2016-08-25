@@ -88,28 +88,60 @@ function InitData(url,params){
 function dispatch(id){
 	$.ajax({
 		type:'POST',
-		url:'findChanceListPage?page=1&rows=1',
-		data:{'id':id},
+		url:'getChanceDetail.action',
+		data:{'t.id':id},
 		dataType:'JSON',
 		success:function(data){
 			var html="";
-			html+="<tr><th>编号</th><td>"+data.rows[0].id+"</td><th>机会来源</th><td>"+data.rows[0].chancesource+"</td></tr>";
-			html+="<tr><th>客户名称</th><td>"+data.rows[0].customername+"</td><th>成功机率（%）</th><td>"+data.rows[0].success+"</td></tr>";
-			html+="<tr><th>概要</th><td colspan='3'>"+data.rows[0].chancesummary+"</td></tr>"
-			html+="<tr><th>联系人</th><td>"+data.rows[0].contacter.cname+"</td><th>联系人电话</th><td>"+data.rows[0].contacter.telphone+"</td></tr>";
-			html+="<tr><th>机会描述</th><td colspan='3'>"+data.rows[0].chancedescribe+"</td></tr>";
-			html+="<tr><th>创建人</th><td>"+data.rows[0].createtime+"</td><th>创建时间</th><td>"+data.rows[0].createtime+"</td></tr>"
+			html+="<tr><th>编号</th><td>"+data.rows.id+"</td><th>机会来源</th><td>"+data.rows.chancesource+"</td></tr>";
+			html+="<tr><th>客户名称</th><td>"+data.rows.customername+"</td><th>成功机率（%）</th><td>"+data.rows.success+"</td></tr>";
+			html+="<tr><th>概要</th><td colspan='3'>"+data.rows.chancesummary+"</td></tr>"
+			html+="<tr><th>联系人</th><td>"+data.rows.contacter.cname+"</td><th>联系人电话</th><td>"+data.rows.contacter.telphone+"</td></tr>";
+			html+="<tr><th>机会描述</th><td colspan='3'>"+data.rows.chancedescribe+"</td></tr>";
+			html+="<tr><th>创建人</th><td>"+data.rows.creater+"</td><th>创建时间</th><td>"+data.rows.createtime+"</td></tr>"
 			html+="</table>"
 			$("#dispatchTable").html(html);
+			$("#saveDispatch").bind('click',function(){
+				$.ajax({
+					type:"POST",
+					data:{				
+						't.id':data.rows.id,
+						't.chancesource':data.rows.chancesource,
+						't.customername':data.rows.customername,
+						't.success':data.rows.success,
+						't.chancesummary':data.rows.chancesummary,
+						't.contacter.cname':data.rows.contacter.cname,
+						't.contacter.telphone':data.rows.contacter.telphone,
+						't.chancedescribe':data.rows.chancedescribe,
+						't.creater':data.rows.creater,
+						't.createtime':data.rows.createtime,
+						't.user.id':$("#dispatchCus").val(),
+						't.assigntime':$("#dispatchTime").val(),
+						't.chancestatus.id':$("#dispatchCus").val()==''?5:6
+						
+						},
+					url:'updateChanceUserInfo.action',
+					dataType:'JSON',
+					success:function(data){
+						if(data.code=1){
+							$.messager.show({title:"成功提示",msg:'销售机会添加成功',timeout:3000,showType:'slide'});
+							dataObj.datagrid('reload');
+						}else{
+							$.messager.alert('失败提示','销售机会添加失败,原因：'+data.msg,'error');
+						}
+					}
+				})
+			});
+			
 		}
 	});
+	
+	
 	setCusList("dispatchCus");
 	setCurTime("dispatchTime");
 	
 	$("#dispatchSaleOption").dialog("open");
-	$("#saveDispatch").bind('click',function(){
-		alert(id);
-	});
+	
 }
 
 //编辑
@@ -117,31 +149,72 @@ function showOptionDetail(id){
 	setCurTime('assigntime');
 	$.ajax({
 		type:'POST',
-		url:'findChanceListPage?page=1&rows=1',
-		data:{'id':id},
+		url:'getChanceDetail.action',
+		data:{'t.id':id},
 		dataType:'JSON',
 		success:function(data){
+			
+			
 			
 			$("#addSaleOption").dialog({
 				title:"销售机会管理  > 编辑销售机会",
 				onOpen:function(){
-					$("#id").val(data.rows[0].id),
-					$("#chancesource").val(data.rows[0].chancesource),
-					$("#customername").val(data.rows[0].customername),
-					$("#success").val(data.rows[0].success),
-					$("#chancesummary").val(data.rows[0].chancesummary),
-					$("#contacter").val(data.rows[0].contacter.cname),
-					$("#telephone").val(data.rows[0].contacter.telphone),
-					$("#chancedescribe").val(data.rows[0].chancedescribe),
-					$("#creater").val(data.rows[0].creater),
-					$("#createtime").val(data.rows[0].createtime),
+					$("#id").val(data.rows.id),
+					$("#chancesource").val(data.rows.chancesource),
+					$("#customername").val(data.rows.customername),
+					$("#success").val(data.rows.success),
+					$("#chancesummary").val(data.rows.chancesummary),
+					$("#contacter").val(data.rows.contacter.cname),
+					$("#telephone").val(data.rows.contacter.telphone),
+					$("#chancedescribe").val(data.rows.chancedescribe),
+					$("#creater").val(data.rows.creater),
+					$("#createtime").val(data.rows.createtime),
 					$("#cusManager").attr("disabled",true),
-					$("#assigntime").attr("disabled",true),
-					$("#save").attr("onclick","editSaleOption();return false;")
+					$("#assigntime").attr("disabled",true)
+				//	$("#save").attr("onclick","editSaleOption("+data+");return false;")
 					
 				}
+			
+			
+			
+			
 				
 			});
+			$("#save").attr("onclick","")
+			$("#save").bind('click',function(){
+
+				$.ajax({
+					type:"POST",
+					data:{				
+						't.id':data.rows.id,
+						't.chancesource':data.rows.chancesource,
+						't.customername':data.rows.customername,
+						't.success':data.rows.success,
+						't.chancesummary':data.rows.chancesummary,
+						't.contacter.cname':data.rows.contacter.cname,
+						't.contacter.telphone':data.rows.contacter.telphone,
+						't.chancedescribe':data.rows.chancedescribe,
+						't.creater':data.rows.creater,
+						't.createtime':data.rows.createtime,
+						't.user.id':$("#dispatchCus").val(),
+						't.assigntime':$("#dispatchTime").val(),
+						't.chancestatus.id':$("#dispatchCus").val()==''?5:6
+						
+						},
+					url:'updateChanceUserInfo.action',
+					dataType:'JSON',
+					success:function(data){
+						if(data.code=1){
+							$.messager.show({title:"成功提示",msg:'销售机会添加成功',timeout:3000,showType:'slide'});
+							dataObj.datagrid('reload');
+						}else{
+							$.messager.alert('失败提示','销售机会添加失败,原因：'+data.msg,'error');
+						}
+					}
+				})
+			
+			})
+		
 			
 			$("#addSaleOption").dialog("open");
 			
@@ -184,8 +257,8 @@ function delSaleOption(id,chancesummary){
 	if(window.confirm("确认删除概要为:"+chancesummary+"的销售机会？")){
 		$.ajax({
 			type:'POST',
-			url:'',
-			data:{'id':id},
+			url:'deleteChanceById',
+			data:{'t.id':id},
 			dataType:'JSON',
 			success:function(data){
 				if(data.code=1){
@@ -231,3 +304,7 @@ function saveSaleOption(){
 		}
 	});
 }
+
+
+
+

@@ -35,7 +35,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			insert into chance values(#{id},#{chancesource},#{customername},#{success},#{chancesummary},#{contacter.cname},#{chancedescribe},#{creater},#{createtime},#{user.id},#{assigntime},#{chancestatus.id})
 	</insert>
 
-
+	<update id="updateChance" parameterType="Chance">
+		update chance set chancesource=#{chancesource},customername=#{customername},success=#{success},
+		chancesummary=#{chancesummary},contacename=#{contacter.cname},chancedescribe=#{chancedescribe},creater=#{creater},
+		createtime=#{createtime},userid=#{user.id},assigntime=#{assigntime},chancestatus=#{chancestatus.id} where  id=#{id}
+	</update>
+	
+	<delete id="deleteChanceById">
+		delete  from chance where id=#{id}
+	</delete>
+	
+	
 	
 	
 	<select id="findAllChance" resultMap="DataDirectoryMap">
@@ -44,6 +54,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getChanceCount" resultType="int">
 		select count(*) from chance where chancestatus=5
+	</select>
+	
+	<select id="getChanceDetail" resultMap="DataDirectoryMap">
+		select * from chance where id=#{id}
 	</select>
 	
 	<resultMap type="Chance"  id="DataDirectoryMap">

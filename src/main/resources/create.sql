@@ -32,7 +32,7 @@ create table customer(
 	customerstatus int 	,							 
 	customermanagerid int							 
 );
-
+select * from customer;
  
 create table contacter(						 
 	id int primary key auto_increment,								 

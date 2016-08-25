@@ -33,6 +33,65 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 	private PageModel<Chance> pagemodel;
 	private HashMap<String,Object> map = new HashMap<String, Object>();
 	private Integer total;
+	private Map<String,Object> session = ActionContext.getContext().getSession();
+	
+	
+	@Action(value="/deleteChanceById")
+	public void DeleteChanceById() throws IOException{
+			try {
+				chanceBiz.deleteChanceById(pagemodel);
+				pagejsonModel.setCode(1);
+				pagejsonModel.setMsg("删除成功");
+			} catch (Exception e) {
+				pagejsonModel.setCode(0);
+				pagejsonModel.setMsg(e.getMessage());
+			}
+			super.outJson(pagejsonModel, ServletActionContext.getResponse());
+	}
+
+	
+	@Action(value="/updateChanceUserInfo")
+	public void updateChanceUserInfo() throws IOException{
+		System.out.println("我进来了");
+		
+			try {
+				chanceBiz.updateChanceUserInfo(pagemodel);
+				pagejsonModel.setCode(1);
+				pagejsonModel.setMsg("更新成功");
+			} catch (Exception e) {
+				pagejsonModel.setCode(0);
+				pagejsonModel.setMsg(e.getMessage());
+			}
+		
+			super.outJson(pagejsonModel, ServletActionContext.getResponse());
+	}
+
+	
+	
+	@Action(value="/getChanceDetail")
+	public void getChanceDetail() throws IOException{
+		
+		if(session.get("chancelist")!=null&&!"".equals(session.get("chancelist"))){
+			List<Chance> chancelist  = (List<Chance>) session.get("chancelist");
+			for (Chance chance : chancelist) {
+				if(pagemodel.getT().getId()==chance.getId()){
+					pagejsonModel.setCode(1);
+					pagejsonModel.setRows(chance);
+				}
+			}
+		}else{
+			Chance chance =chanceBiz.FindDetailChance(pagemodel);
+			if(chance!=null&&!"".equals(chance)){
+				pagejsonModel.setCode(1);
+				pagejsonModel.setRows(chance);
+			}else{
+				pagejsonModel.setCode(0);
+				pagejsonModel.setMsg("error in action");
+			}
+		}
+			super.outJson(pagejsonModel, ServletActionContext.getResponse());
+	}
+
 	
 	@Action(value="/findChanceByCondition")
 	public void FindChanceByCondition() throws IOException{
@@ -67,8 +126,11 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 	public void FindChanceListPage() throws IOException{
 		
 		List<Chance> chancelist = chanceBiz.FindChanceListPage(pagemodel).getList();
-		
+		map.put("rows", chancelist);
 		total=chanceBiz.FindChanceListPage(pagemodel).getTotalCount();
+		map.put("total", total);
+		
+		session.put("chancelist", chancelist);
 		
 		if(map!=null){
 			pagejsonModel.setTotal(total);;
@@ -79,6 +141,7 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 		}
 		super.outJson(pagejsonModel, ServletActionContext.getResponse());
 	}
+
 	
 	
 	
