@@ -39,20 +39,32 @@ public class ChanceAction extends BaseAction implements ModelDriven<PageModel<Ch
 	@Action(value="/deleteChanceById")
 	public void DeleteChanceById() throws IOException{
 			try {
-				chanceBiz.deleteChanceById(pagemodel);
-				pagejsonModel.setCode(1);
-				pagejsonModel.setMsg("删除成功");
+				if(session.get("loginuser")!=null&&!"".equals(session.get("loginuser"))){
+					UserInfo userinfo = (UserInfo) session.get("loginuser");
+					List<Chance> chancelist  = (List<Chance>) session.get("chancelist");
+					for (Chance chance : chancelist) {
+						if(userinfo.getName()==chance.getCreater()){
+							chanceBiz.deleteChanceById(pagemodel);
+							pagejsonModel.setCode(1);
+							pagejsonModel.setMsg("删除成功");
+						}else{
+							pagejsonModel.setCode(0);
+							pagejsonModel.setMsg("您没有此权限");
+						}
+					}
+				}
 			} catch (Exception e) {
 				pagejsonModel.setCode(0);
-				pagejsonModel.setMsg(e.getMessage());
+				pagejsonModel.setMsg("删除失败，原因"+e.getMessage());
 			}
 			super.outJson(pagejsonModel, ServletActionContext.getResponse());
 	}
 
+
 	
 	@Action(value="/updateChanceUserInfo")
 	public void updateChanceUserInfo() throws IOException{
-		System.out.println("我进来了");
+		
 		
 			try {
 				chanceBiz.updateChanceUserInfo(pagemodel);

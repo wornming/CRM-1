@@ -65,7 +65,7 @@ function InitData(url,params){
 						return value;
 					}
 				}},
-	         {field:'createtime',title:'创建时间',width:100,align:'center',editor:{type:'text',options:{required:true}}},
+	         {field:'changecreatetime',title:'创建时间',width:100,align:'center',editor:{type:'text',options:{required:true}}},
 	        {field:'g',title:'操作',width:100,align:'center',editor:{type:'text',options:{required:true}}, formatter:function(value,row,index){
 	   		 return "<img onclick='dispatch("+row.id+");' title='指派' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='showOptionDetail("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='删除' src='../images/bt_del.gif'/>";
 	         
@@ -98,7 +98,7 @@ function dispatch(id){
 			html+="<tr><th>概要</th><td colspan='3'>"+data.rows.chancesummary+"</td></tr>"
 			html+="<tr><th>联系人</th><td>"+data.rows.contacter.cname+"</td><th>联系人电话</th><td>"+data.rows.contacter.telphone+"</td></tr>";
 			html+="<tr><th>机会描述</th><td colspan='3'>"+data.rows.chancedescribe+"</td></tr>";
-			html+="<tr><th>创建人</th><td>"+data.rows.creater+"</td><th>创建时间</th><td>"+data.rows.createtime+"</td></tr>"
+			html+="<tr><th>创建人</th><td>"+data.rows.creater+"</td><th>创建时间</th><td>"+data.rows.changecreatetime+"</td></tr>"
 			html+="</table>"
 			$("#dispatchTable").html(html);
 			$("#saveDispatch").bind('click',function(){
@@ -114,7 +114,7 @@ function dispatch(id){
 						't.contacter.telphone':data.rows.contacter.telphone,
 						't.chancedescribe':data.rows.chancedescribe,
 						't.creater':data.rows.creater,
-						't.createtime':data.rows.createtime,
+						't.createtime':data.rows.changecreatetime,
 						't.user.id':$("#dispatchCus").val(),
 						't.assigntime':$("#dispatchTime").val(),
 						't.chancestatus.id':$("#dispatchCus").val()==''?5:6
@@ -168,7 +168,7 @@ function showOptionDetail(id){
 					$("#telephone").val(data.rows.contacter.telphone),
 					$("#chancedescribe").val(data.rows.chancedescribe),
 					$("#creater").val(data.rows.creater),
-					$("#createtime").val(data.rows.createtime),
+					$("#createtime").val(data.rows.changecreatetime),
 					$("#cusManager").attr("disabled",true),
 					$("#assigntime").attr("disabled",true)
 				//	$("#save").attr("onclick","editSaleOption("+data+");return false;")
@@ -187,18 +187,18 @@ function showOptionDetail(id){
 					type:"POST",
 					data:{				
 						't.id':data.rows.id,
-						't.chancesource':data.rows.chancesource,
-						't.customername':data.rows.customername,
-						't.success':data.rows.success,
-						't.chancesummary':data.rows.chancesummary,
-						't.contacter.cname':data.rows.contacter.cname,
-						't.contacter.telphone':data.rows.contacter.telphone,
-						't.chancedescribe':data.rows.chancedescribe,
-						't.creater':data.rows.creater,
-						't.createtime':data.rows.createtime,
-						't.user.id':$("#dispatchCus").val(),
-						't.assigntime':$("#dispatchTime").val(),
-						't.chancestatus.id':$("#dispatchCus").val()==''?5:6
+						't.chancesource':$("#chancesource").val(),
+						't.customername':$("#customername").val(),
+						't.success':$("#success").val(),
+						't.chancesummary':$("#chancesummary").val(),
+						't.contacter.cname':$("#contacter").val(),
+						't.contacter.telphone':$("#telephone").val(),
+						't.chancedescribe':$("#chancedescribe").val(),
+						't.creater':$("#creater").val(),
+						't.createtime':$("#createtime").val(),
+						't.user.id':$("#cusManager").val(),
+						't.assigntime':$("#assigntime").val(),
+						't.chancestatus.id':$("#cusManager").val()==''?5:6
 						
 						},
 					url:'updateChanceUserInfo.action',
@@ -261,7 +261,7 @@ function delSaleOption(id,chancesummary){
 			data:{'t.id':id},
 			dataType:'JSON',
 			success:function(data){
-				if(data.code=1){
+				if(data.code==1){
 					$.messager.show({title:"成功提示",msg:'销售机会删除成功',timeout:3000,showType:'slide'});
 					dataObj.datagrid('reload');
 				}else{

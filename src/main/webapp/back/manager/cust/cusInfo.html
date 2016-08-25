@@ -4,6 +4,28 @@
 <script src="../js/cusInfo.js"></script>
 <link href="css/style.css" rel="stylesheet" type="text/css">
 
+
+<div id="linkmanList" class="easyui-dialog" title="客户信息管理 > 客户信息 > 联系人 " data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
+	<div class="button_bar">
+	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help'" onclick="alert('欢迎使用');return false;">帮助</a>
+	<a  href="javascript:closelinkmanList()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" >返回</a>
+	<a  id="saveDispatch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="return false;">新建</a>
+	</div>
+	
+	<table class="query_form_table">
+	<tr>
+		<th>客户编号</th>
+		<td><input type ="text" id="linkman_id" disabled/></td>
+		<th>客户名称</th>
+		<td><input type="text" id="linkman_cname" disabled/></td>
+	</tr>
+	</table>
+<br />
+	<table class="data_list_table" id="linkman_table">
+		
+	</table>
+</div>
+
 <div id="editInfoOption" class="easyui-dialog" title="客户信息管理 > 客户信息" data-options="iconCls:'icon-add',resizable:true,modal:true,closed:true,fit:true">
 <br/>
 <div class="button_bar">

@@ -159,6 +159,7 @@ function InitTable(url,params){
 		sortName:"id",
 		remoteSort:false,
 		queryParams:params,
+		singleSelect:true,
 		columns:[[
 	         
 		    
@@ -184,9 +185,9 @@ function InitTable(url,params){
 				}},
 	        {field:'g',title:'操作',width:100,align:'center',editor:{type:'text',options:{required:true}}, formatter:function(value,row,index){
 	        	if(row.customerstatus.dvalue==1){
-	        		 return "<img onclick='editCusInfo("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='showOptionDetail("+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='删除' src='../images/bt_del.gif'/>";
+	        		 return "<img onclick='editCusInfo("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='getContacterList("+index+","+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='getActivities("+index+","+row.id+");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='删除' src='../images/bt_del.gif'/>";
 	        	}else{
-	        		 return "<img onclick='editCusInfo("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='showOptionDetail("+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>";
+	        		 return "<img onclick='editCusInfo("+row.id+");' title='编辑' src='../images/bt_edit.gif'/>&nbsp;<img onclick='getContacterList("+index+","+row.id+");' title='联系人' src='../images/bt_linkman.gif'/>&nbsp;<img onclick='getActivities("+index+","+row.id+");' title='交往记录' src='../images/bt_acti.gif'/>&nbsp;<img onclick='delSaleOption("+row.id+",\""+row.chancesummary+"\");' title='历史订单' src='../images/bt_orders.gif'/>";
 	             }
 	         
 	   	 }}
@@ -272,6 +273,74 @@ function editCusInfo(id){
 		}
 	});
 }
+//联系表
+
+
+
+
+function getContacterList(cid,id){
+	dataObj.datagrid('selectRow',cid);
+	var row = dataObj.datagrid('getSelected');
+	
+	$("#linkmanList").dialog({
+		title:"客户信息管理 > 客户信息 > 联系人",
+		onOpen:function(){
+			$("#linkman_id").val(row.id),
+			$("#linkman_cname").val(row.cname)
+		}
+	})
+	
+	$.ajax({
+		type:'POST',
+		data:{'customer.id':id},
+		url:'list_contacterbycustomerid.action',
+		dataType:'JSON',
+		success:function(data){
+			html="<tr><th>姓名</th><th>性别</th><th>职位</th><th>办公电话</th><th>手机</th><th>备注</th><th>操作</th></tr>";
+			for (var i = 0; i < data.obj.length; i++) {
+				var obj = data.obj[i];
+				html+="<tr><td class='list_data_text'>"+obj.cname+"</td><td class='list_data_ltext'>"+obj.sex.tiaomu+"</td><td class='list_data_text'>"+obj.post.tiaomu+"</td>";
+				html+="<td class='list_data_text'>"+obj.telphone+"</td><td class='list_data_text'>"+obj.cellphone+"</td><td class='list_data_op'></td>";
+				html+="<td class='list_data_op'><img onclick='' title='编辑' src='../images/bt_edit.gif' class='op_button' /><img onclick='' title='删除' src='../images/bt_del.gif' class='op_button' /></td></tr>";
+			}
+			$("#linkman_table").html(html);
+		}
+	});
+	
+	$("#linkmanList").dialog("open");
+}
+
+
+function getActivities(cid,id){
+	dataObj.datagrid('selectRow',cid);
+	var row = dataObj.datagrid('getSelected');
+	
+	$("#linkmanList").dialog({
+		title:"客户信息管理 > 客户信息 > 交往记录",
+		onOpen:function(){
+			$("#linkman_id").val(row.id),
+			$("#linkman_cname").val(row.cname)
+		}
+	})
+	
+	/*$.ajax({
+		type:'POST',
+		data:{'':id},
+		url:'',
+		dataType:'JSON',
+		success:function(data){
+			html="<tr><th width='232'>时间</th><th>地点</th><th>概要</th><th>详细信息</th><th>备注</th><th>操作</th></tr>";
+			for (var i = 0; i < data.obj.length; i++) {
+				html+="<tr><td class='list_data_text'>"++"</td><td class='list_data_ltext'>"++"</td><td class='list_data_text'>"++"</td>";
+				html+="<td class='list_data_text'>"++"</td><td class='list_data_text'>"++"</td><td class='list_data_op'></td>";
+				html+="<td class='list_data_op'><img onclick='' title='编辑' src='../images/bt_edit.gif' class='op_button' /><img onclick='' title='删除' src='../images/bt_del.gif' class='op_button' /></td></tr>";
+			}
+			$("#linkman_table").html(html);
+		}
+	});*/
+	
+	$("#linkmanList").dialog("open");
+}
 
 
 function saveCusInfo(){
@@ -329,6 +398,12 @@ function closeInfoOption(){
 		 closed: true
 	});
 	
+}
+
+function closelinkmanList(){
+	$("#linkmanList").dialog({
+		closed:true
+	});
 }
 
 

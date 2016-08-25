@@ -1,6 +1,9 @@
 package com.crm.bean;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -25,6 +28,56 @@ public class Chance implements Serializable {
 	private UserInfo user; // 被指派的人
 	private Date assigntime; // 指派时间
 	private DataDirectory chancestatus; // 机会状态 关联数据字典
+	//转换后的时间
+	private String changecreatetime;
+	private String changeassigntime;
+	
+	
+	
+	
+
+	public String getChangecreatetime() {
+		return this.changecreatetime;
+	}
+
+	public void setChangecreatetime(String changecreatetime) {
+		this.changecreatetime = changecreatetime;
+	}
+
+	public String getChangeassigntime() {
+		return this.changeassigntime;
+	}
+
+	public void setChangeassigntime(String changeassigntime) {
+		this.changeassigntime = changeassigntime;
+	}
+	
+	
+	public Date getCreatetime() throws ParseException {
+		DateFormat df =new SimpleDateFormat("yyyy-MM-dd");
+		this.createtime=new Date(df.parse(this.changecreatetime).getTime());
+		return this.createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		DateFormat df =new SimpleDateFormat("yyyy-MM-dd");
+		this.createtime = createtime;
+		this.changecreatetime=df.format(new java.util.Date(this.createtime.getTime()));
+	}
+
+	public Date getAssigntime() throws ParseException {
+		DateFormat df =new SimpleDateFormat("yyyy-MM-dd");
+		this.assigntime=new Date(df.parse(this.changeassigntime).getTime());
+		return this.assigntime;
+	}
+
+	public void setAssigntime(Date assigntime) {
+		DateFormat df =new SimpleDateFormat("yyyy-MM-dd");
+		this.assigntime = assigntime;
+		this.changeassigntime=df.format(new  java.util.Date(this.assigntime.getTime()));
+	}
+	
+
 
 	public Integer getId() {
 		return id;
@@ -90,13 +143,8 @@ public class Chance implements Serializable {
 		this.creater = creater;
 	}
 
-	public Date getCreatetime() {
-		return createtime;
-	}
 
-	public void setCreatetime(Date createtime) {
-		this.createtime = createtime;
-	}
+
 
 	public UserInfo getUser() {
 		return user;
@@ -106,13 +154,8 @@ public class Chance implements Serializable {
 		this.user = user;
 	}
 
-	public Date getAssigntime() {
-		return assigntime;
-	}
 
-	public void setAssigntime(Date assigntime) {
-		this.assigntime = assigntime;
-	}
+	
 
 	public DataDirectory getChancestatus() {
 		return chancestatus;
@@ -124,10 +167,16 @@ public class Chance implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Chance [id=" + id + ", chancesource=" + chancesource + ", customername=" + customername + ", success="
-				+ success + ", chancesummary=" + chancesummary + ", contacter=" + contacter + ", chancedescribe="
-				+ chancedescribe + ", creater=" + creater + ", createtime=" + createtime + ", user=" + user
-				+ ", assigntime=" + assigntime + ", chancestatus=" + chancestatus + "]";
+		return "Chance [id=" + id + ", chancesource=" + chancesource
+				+ ", customername=" + customername + ", success=" + success
+				+ ", chancesummary=" + chancesummary + ", contacter="
+				+ contacter + ", chancedescribe=" + chancedescribe
+				+ ", creater=" + creater + ", createtime=" + createtime
+				+ ", user=" + user + ", assigntime=" + assigntime
+				+ ", chancestatus=" + chancestatus + ", changecreatetime="
+				+ changecreatetime + ", changeassigntime=" + changeassigntime
+				+ "]";
 	}
 
+	
 }

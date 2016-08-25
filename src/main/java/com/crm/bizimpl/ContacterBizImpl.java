@@ -1,5 +1,8 @@
 package com.crm.bizimpl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,5 +18,10 @@ public class ContacterBizImpl extends BaseBizImpl implements ContacterBiz {
 	public void saveContacter(Contacter contacter) {
 		baseDao.save(contacter, "saveContacter");
 	}
+	@Transactional(readOnly=false,isolation=Isolation.DEFAULT,rollbackForClassName=("java.lang.RuntimeException"),propagation=Propagation.REQUIRED)
+	public List<Contacter> getContacterByCustomerId(Map<String, Object> map) {
+		return baseDao.findList(Contacter.class, map, "getContacterByCustomerId");
+	}
+
 
 }

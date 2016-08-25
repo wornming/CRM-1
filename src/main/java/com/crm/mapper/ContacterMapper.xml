@@ -14,4 +14,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 		insert into contacter  values(#{id},#{customer.id},#{cname},26,29,'010-110114119',#{telphone},'this is remark')
 	</insert>
+	
+	<!-- 没有映射customer -->
+	<resultMap type="Contacter" id="ContacterMap">
+		<association property="sex" column="sex" select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"></association>
+		<association property="post" column="post" select="com.crm.mapper.DataDirectoryMapper.getDataDirectory"></association>
+	</resultMap>
+	<!-- 通过Contactr中customerid查询联系人 -->
+	<select id="getContacterByCustomerId" parameterType="map" resultMap="ContacterMap">
+		select * from contacter where customerid=#{customerid}
+	</select>
+	
 </mapper>
